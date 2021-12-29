@@ -1,4 +1,7 @@
+import 'package:dummy_api/controllers/home_contoller.dart';
+import 'package:dummy_api/views/styles/k_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'views/screens/home/home_page.dart';
 
@@ -11,12 +14,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    final HomeController _homeController = Get.put(HomeController());
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
+      theme: KThemeData.mainTheme,
+      home: HomePage(),
     );
   }
 }
