@@ -1,5 +1,5 @@
-import 'package:dummy_api/models/post_model.dart';
-import 'package:dummy_api/servies/remote_service.dart';
+import 'package:dummy_api/data/servies/remote_service.dart';
+import 'package:dummy_api/data/models/post_model.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
