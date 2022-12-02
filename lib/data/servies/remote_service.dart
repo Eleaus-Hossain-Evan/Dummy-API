@@ -1,7 +1,10 @@
+import 'package:clean_api/clean_api.dart';
 import 'package:dummy_api/data/network/api.dart';
 import 'package:dummy_api/data/models/post_model.dart';
 import 'package:dummy_api/data/network/network_handlers.dart';
 import 'package:http/http.dart' as http;
+
+import '../models/post_response.dart';
 
 class RemoteService {
   // static Future<PostList> getAllUser() async {
@@ -44,16 +47,27 @@ class RemoteService {
   //   }
   // }
 
-  static Future<PostModel?> fetchAllPosts() async {
+  static Future<PostResponse?> fetchAllPosts() async {
     try {
       var responseBody = await Network.handleResponse(await Network.getRequest(
         API.post,
         queryParams: API.homePostQuery,
         mapHeaders: API.appIdHeaders,
       ));
-      return PostModel.fromJson(responseBody);
+      return PostResponse.fromJson(responseBody);
     } on Exception catch (e) {
       print(e);
     }
+  }
+
+  final api = CleanApi.instance;
+
+  Future<Either<CleanFailure, PostResponse>> fetchAllPostsFromCleanApi() async {
+    final data = await api.get(
+      fromData: (data) => PostResponse.fromMap(data),
+      endPoint: API.post,
+      withToken: true,
+    );
+    return data.fold((l) => left(l), (r) => right(r));
   }
 }

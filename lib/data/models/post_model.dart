@@ -1,44 +1,19 @@
-// To parse this JSON data, do
-//
-//     final postList = postListFromJson(jsonString);
-
 import 'dart:convert';
 
-PostModel postListFromJson(String str) => PostModel.fromJson(json.decode(str));
+import 'package:equatable/equatable.dart';
 
-String postListToJson(PostModel data) => json.encode(data.toJson());
+import 'owner.dart';
 
-class PostModel {
+class PostModel extends Equatable {
+  String id;
+  String image;
+  int likes;
+  List<String> tags;
+  String text;
+  DateTime publishDate;
+  Owner owner;
+
   PostModel({
-    required this.data,
-    required this.total,
-    required this.page,
-    required this.limit,
-  });
-
-  List<PostList> data;
-  int total;
-  int page;
-  int limit;
-
-  factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
-        data:
-            List<PostList>.from(json["data"].map((x) => PostList.fromJson(x))),
-        total: json["total"],
-        page: json["page"],
-        limit: json["limit"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "total": total,
-        "page": page,
-        "limit": limit,
-      };
-}
-
-class PostList {
-  PostList({
     required this.id,
     required this.image,
     required this.likes,
@@ -48,63 +23,80 @@ class PostList {
     required this.owner,
   });
 
-  String id;
-  String image;
-  int likes;
-  List<String> tags;
-  String text;
-  DateTime publishDate;
-  Owner owner;
-
-  factory PostList.fromJson(Map<String, dynamic> json) => PostList(
-        id: json["id"],
-        image: json["image"],
-        likes: json["likes"],
-        tags: List<String>.from(json["tags"].map((x) => x)),
-        text: json["text"],
-        publishDate: DateTime.parse(json["publishDate"]),
-        owner: Owner.fromJson(json["owner"]),
+  factory PostModel.init() => PostModel(
+        id: "",
+        image: "",
+        likes: 0,
+        tags: const [],
+        text: "",
+        publishDate: DateTime.now(),
+        owner: Owner.init(),
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "image": image,
-        "likes": likes,
-        "tags": List<dynamic>.from(tags.map((x) => x)),
-        "text": text,
-        "publishDate": publishDate.toIso8601String(),
-        "owner": owner.toJson(),
-      };
-}
+  PostModel copyWith({
+    String? id,
+    String? image,
+    int? likes,
+    List<String>? tags,
+    String? text,
+    DateTime? publishDate,
+    Owner? owner,
+  }) {
+    return PostModel(
+      id: id ?? this.id,
+      image: image ?? this.image,
+      likes: likes ?? this.likes,
+      tags: tags ?? this.tags,
+      text: text ?? this.text,
+      publishDate: publishDate ?? this.publishDate,
+      owner: owner ?? this.owner,
+    );
+  }
 
-class Owner {
-  Owner({
-    required this.id,
-    required this.title,
-    required this.firstName,
-    required this.lastName,
-    required this.picture,
-  });
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'image': image,
+      'likes': likes,
+      'tags': tags,
+      'text': text,
+      'publishDate': publishDate.millisecondsSinceEpoch,
+      'owner': owner.toMap(),
+    };
+  }
 
-  String id;
-  String title;
-  String firstName;
-  String lastName;
-  String picture;
+  factory PostModel.fromMap(Map<String, dynamic> map) {
+    return PostModel(
+      id: map['id'] ?? '',
+      image: map['image'] ?? '',
+      likes: map['likes']?.toInt() ?? 0,
+      tags: List<String>.from(map['tags'] ?? const []),
+      text: map['text'] ?? '',
+      publishDate: DateTime.fromMillisecondsSinceEpoch(map['publishDate']),
+      owner: Owner.fromMap(map['owner']),
+    );
+  }
 
-  factory Owner.fromJson(Map<String, dynamic> json) => Owner(
-        id: json["id"],
-        title: json["title"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        picture: json["picture"],
-      );
+  String toJson() => json.encode(toMap());
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "firstName": firstName,
-        "lastName": lastName,
-        "picture": picture,
-      };
+  factory PostModel.fromJson(String source) =>
+      PostModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'PostModel(id: $id, image: $image, likes: $likes, tags: $tags, text: $text, publishDate: $publishDate, owner: $owner)';
+  }
+
+  @override
+  List<Object> get props {
+    return [
+      id,
+      image,
+      likes,
+      tags,
+      text,
+      publishDate,
+      owner,
+    ];
+  }
 }
