@@ -11,6 +11,7 @@ class PostModel extends Equatable {
   List<String> tags;
   String text;
   DateTime publishDate;
+  DateTime updatedDate;
   Owner owner;
 
   PostModel({
@@ -20,6 +21,7 @@ class PostModel extends Equatable {
     required this.tags,
     required this.text,
     required this.publishDate,
+    required this.updatedDate,
     required this.owner,
   });
 
@@ -30,6 +32,7 @@ class PostModel extends Equatable {
         tags: const [],
         text: "",
         publishDate: DateTime.now(),
+        updatedDate: DateTime.now(),
         owner: Owner.init(),
       );
 
@@ -40,6 +43,7 @@ class PostModel extends Equatable {
     List<String>? tags,
     String? text,
     DateTime? publishDate,
+    DateTime? updatedDate,
     Owner? owner,
   }) {
     return PostModel(
@@ -49,6 +53,7 @@ class PostModel extends Equatable {
       tags: tags ?? this.tags,
       text: text ?? this.text,
       publishDate: publishDate ?? this.publishDate,
+      updatedDate: updatedDate ?? this.updatedDate,
       owner: owner ?? this.owner,
     );
   }
@@ -60,7 +65,8 @@ class PostModel extends Equatable {
       'likes': likes,
       'tags': tags,
       'text': text,
-      'publishDate': publishDate.millisecondsSinceEpoch,
+      'publishDate': publishDate.toIso8601String(),
+      'updatedDate': updatedDate.toIso8601String(),
       'owner': owner.toMap(),
     };
   }
@@ -72,7 +78,12 @@ class PostModel extends Equatable {
       likes: map['likes']?.toInt() ?? 0,
       tags: List<String>.from(map['tags'] ?? const []),
       text: map['text'] ?? '',
-      publishDate: DateTime.fromMillisecondsSinceEpoch(map['publishDate']),
+      publishDate: map['publishDate'] == null
+          ? DateTime.now()
+          : DateTime.tryParse(map['publishDate']) ?? DateTime.now(),
+      updatedDate: map['updatedDate'] == null
+          ? DateTime.now()
+          : DateTime.tryParse(map['updatedDate']) ?? DateTime.now(),
       owner: Owner.fromMap(map['owner']),
     );
   }
@@ -84,7 +95,7 @@ class PostModel extends Equatable {
 
   @override
   String toString() {
-    return 'PostModel(id: $id, image: $image, likes: $likes, tags: $tags, text: $text, publishDate: $publishDate, owner: $owner)';
+    return 'PostModel(id: $id, image: $image, likes: $likes, tags: $tags, text: $text, publishDate: $publishDate, updatedDate: $updatedDate, owner: $owner)';
   }
 
   @override
@@ -96,6 +107,7 @@ class PostModel extends Equatable {
       tags,
       text,
       publishDate,
+      updatedDate,
       owner,
     ];
   }

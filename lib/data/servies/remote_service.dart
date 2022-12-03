@@ -1,6 +1,7 @@
 import 'package:clean_api/clean_api.dart';
 import 'package:dummy_api/data/network/api.dart';
 import 'package:dummy_api/data/models/post_model.dart';
+import 'package:dummy_api/data/network/api_handlers.dart';
 import 'package:dummy_api/data/network/network_handlers.dart';
 import 'package:http/http.dart' as http;
 
@@ -61,9 +62,10 @@ class RemoteService {
   }
 
   final api = CleanApi.instance;
+  final myApi = ApiHandlers.instance;
 
   Future<Either<CleanFailure, PostResponse>> fetchAllPostsFromCleanApi() async {
-    final data = await api.get(
+    final data = await myApi.get<PostResponse>(
       fromData: (data) => PostResponse.fromMap(data),
       endPoint: API.post,
       withToken: true,
