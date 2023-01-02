@@ -131,53 +131,37 @@ class ApiHandlers {
     }
   }
 
-  TaskEither<CleanFailure, Response> makeGetRequest({
-    required String endPoint,
-    Map<String, String>? queryParams,
-    bool withToken = true,
-  }) =>
-      TaskEither<CleanFailure, Response>.tryCatch(
-        () async {
-          final Map<String, String> _header = header(withToken);
+  // TaskEither<CleanFailure, Response> makeGetRequest<T>({
+  //   required String endPoint,
+  //   required T Function(Map<String, dynamic> data) fromData,
+  //   Map<String, String>? queryParams,
+  //   bool withToken = true,
+  // }) =>
+  //     TaskEither.tryCatchK<L,R,fro>(run, onError)
 
-          final url = Uri.parse('${API.baseUrl}$endPoint')
-              .replace(queryParameters: queryParams);
-          Logger.v('URL : $url');
-          return client.get(url, headers: _header);
-        },
-        (error, stackTrace) => CleanFailure.withData(
-            statusCode: -1,
-            enableDialogue: _enableDialogue,
-            tag: endPoint,
-            method: 'GET',
-            url: '${API.baseUrl}$endPoint',
-            header: const {},
-            body: const {},
-            error: error.toString()),
-      );
+  // Map<String, dynamic> mapToJson(Response response) =>
+  //     jsonDecode(response.body) as Map<String, dynamic>;
 
-  Map<String, dynamic> mapToJson(Response response) =>
-      jsonDecode(response.body) as Map<String, dynamic>;
+  // TaskEither<CleanFailure, Map<String, dynamic>> mappingRequest(String url) =>
+  //     makeGetRequest(url).map(mapToJson);
 
-  TaskEither<CleanFailure, Map<String, dynamic>> mappingRequest(String url) =>
-      makeGetRequest(url).map(mapToJson);
+  // TaskEither<CleanFailure, String> validationRequest(
+  //         Map<String, dynamic> json) =>
+  //     !json.containsKey("pricing")
+  //         ? TaskEither.left(MissingPricingRequestError())
+  //         : TaskEither.of(json["pricing"].toString());
 
-  TaskEither<CleanFailure, String> validationRequest(
-          Map<String, dynamic> json) =>
-      !json.containsKey("pricing")
-          ? TaskEither.left(MissingPricingRequestError())
-          : TaskEither.of(json["pricing"].toString());
-
-  TaskEither<CleanFailure, T> getWithTask<T>({
-    required String endPoint,
-    Map<String, String>? queryParams,
-    bool withToken = true,
-  }) =>
-      makeGetRequest(
-        endPoint: endPoint,
-        queryParams: queryParams,
-        withToken: withToken,
-      ).map(mapToJson).flatMap(validationRequest);
+  // TaskEither<CleanFailure, T> getWithTask<T>({
+  //   required String endPoint,
+  //   required T Function(Map<String, dynamic> data) fromData,
+  //   Map<String, String>? queryParams,
+  //   bool withToken = true,
+  // }) =>
+  //     makeGetRequest(
+  //       endPoint: endPoint,
+  //       queryParams: queryParams,
+  //       withToken: withToken,
+  //     ).map(mapToJson).flatMap(validationRequest);
 
   static bool isSuccessful(int code) {
     return code >= 200 && code <= 206;

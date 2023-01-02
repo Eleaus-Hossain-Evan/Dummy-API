@@ -19,9 +19,7 @@ Future<void> main() async {
   // api.setToken(API.appIdHeaders);
   // api.enableCache(box);
 
-  box.se(
-    KStrings.token,
-  );
+  box.put(KStrings.token, '61c74a1797e6fe20b5557de7');
 
   final myApi = NetworkHandler.instance;
   myApi.setup(
