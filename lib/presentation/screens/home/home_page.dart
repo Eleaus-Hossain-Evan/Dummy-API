@@ -1,9 +1,9 @@
 import 'package:dummy_api/controllers/home_contoller.dart';
 import 'package:dummy_api/size_config.dart';
-import 'package:dummy_api/views/screens/home/widgets/post_list.dart';
-import 'package:dummy_api/views/styles/colors.dart';
-import 'package:dummy_api/views/styles/styles.dart';
-import 'package:dummy_api/views/widgets/k_search_textfield.dart';
+import 'package:dummy_api/presentation/screens/home/widgets/post_list.dart';
+import 'package:dummy_api/presentation/styles/colors.dart';
+import 'package:dummy_api/presentation/styles/styles.dart';
+import 'package:dummy_api/presentation/widgets/k_search_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

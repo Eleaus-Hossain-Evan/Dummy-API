@@ -1,4 +1,4 @@
-import 'package:dummy_api/views/styles/colors.dart';
+import 'package:dummy_api/presentation/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class KDivider extends StatelessWidget {

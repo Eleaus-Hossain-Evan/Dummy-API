@@ -1,14 +1,14 @@
 import 'package:clean_api/clean_api.dart';
 import 'package:dummy_api/controllers/home_contoller.dart';
 import 'package:dummy_api/service/network/network_handler.dart';
-import 'package:dummy_api/views/styles/k_theme.dart';
+import 'package:dummy_api/presentation/styles/k_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'constant/strings.dart';
 import 'service/network/api.dart';
-import 'views/screens/home/home_page.dart';
+import 'presentation/screens/home/home_page.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
