@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  static String route = 'home';
+  HomeScreen({Key? key}) : super(key: key);
   final HomeController _homeController = Get.find();
 
   // Future<List<PostList>> _posts = [] as Future<List<PostList>>;
