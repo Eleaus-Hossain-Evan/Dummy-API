@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../size_config.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class kSearchTestField extends StatelessWidget {
   const kSearchTestField({
@@ -12,9 +11,9 @@ class kSearchTestField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         hintText: "Search",
-        prefixIcon: Icon(Icons.search),
+        prefixIcon: const Icon(Icons.search),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(customWidth(50)),
+          borderRadius: BorderRadius.circular(50.h),
           borderSide:
               BorderSide(color: Theme.of(context).scaffoldBackgroundColor),
         ),

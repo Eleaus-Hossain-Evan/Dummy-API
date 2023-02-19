@@ -1,46 +1,42 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
+
+import 'package:dummy_api/utils/network_util/network_failure.dart';
+
+import '../domain/post_model.dart';
 
 class HomeState extends Equatable {
   final bool loading;
+  final CleanFailure failure;
+  final List<PostModel> posts;
 
   const HomeState({
     required this.loading,
+    required this.failure,
+    required this.posts,
   });
 
   factory HomeState.init() => HomeState(
         loading: false,
+        failure: CleanFailure.none(),
+        posts: const [],
       );
 
   HomeState copyWith({
     bool? loading,
+    CleanFailure? failure,
+    List<PostModel>? posts,
   }) {
     return HomeState(
       loading: loading ?? this.loading,
+      failure: failure ?? this.failure,
+      posts: posts ?? this.posts,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'loading': loading,
-    };
-  }
-
-  factory HomeState.fromMap(Map<String, dynamic> map) {
-    return HomeState(
-      loading: map['loading'] ?? false,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory HomeState.fromJson(String source) =>
-      HomeState.fromMap(json.decode(source));
+  @override
+  String toString() =>
+      'HomeState(loading: $loading, failure: $failure, posts: $posts)';
 
   @override
-  String toString() => 'HomeState(loading: $loading)';
-
-  @override
-  List<Object> get props => [loading];
+  List<Object> get props => [loading, failure, posts];
 }

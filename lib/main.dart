@@ -1,15 +1,15 @@
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'application/local_storage/storage_handler.dart';
 import 'route/go_router.dart';
-import 'presentation/styles/k_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'application/local_storage/storage_handler.dart';
+import 'theme/k_theme.dart';
 import 'utils/utils.dart';
 
 Future<void> main() async {
@@ -45,7 +45,8 @@ Future<void> main() async {
 
   NetworkHandler.instance
     ..setup(baseUrl: APIRoute.baseURL, showLogs: false)
-    ..setToken(token);
+    ..setToken(token)
+    ..setAuthKey('app-id');
 
   Logger.d('token: $token');
 

@@ -1,30 +1,19 @@
+import 'package:dummy_api/domain/post_response.dart';
+import 'package:dummy_api/utils/api_routes.dart';
+import 'package:dummy_api/utils/network_util/network_handler.dart';
+import 'package:flutter_easylogger/flutter_logger.dart';
+
 class HomeRepo {
-  void getAllPosts() async {
-    // try {
-    //   isLoading(true);
-    //   var posts = await RemoteService.fetchAllPosts();
-    //   if (posts != null) {
-    //     postList(posts.data);
-    //     postList.value = posts.data;
-    //     print("Controller...... ${postList.length}");
-    //   }
-    // } finally {
-    //   isLoading(false);
-    // }
+  final api = NetworkHandler.instance;
+  Future<Either<CleanFailure, PostResponse>> fetchAllPostsFromCleanApi() async {
+    final result = await api.get(
+      endPoint: APIRoute.post,
+      fromData: (data) => PostResponse.fromMap(data),
+      withToken: true,
+    );
 
-    // isLoading(true);
+    Logger.i('result: $result');
 
-    // final result = await service.fetchAllPostsFromCleanApi();
-
-    // Logger.i('result: $result');
-
-    // result.fold((l) {
-    //   isLoading(false);
-    //   Logger.e('error: $l');
-    // }, (r) {
-    //   isLoading(false);
-    //   postList(r.data);
-    //   Logger.d("Controller...... ${postList.length}");
-    // });
+    return result;
   }
 }

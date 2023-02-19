@@ -1,51 +1,53 @@
 import 'package:dummy_api/presentation/widgets/k_divider.dart';
+import 'package:dummy_api/utils/custom_color.dart';
+import 'package:dummy_api/utils/custom_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:intl/intl.dart';
 
+import '../../../application/home_provider.dart';
+
 class PostListWidget extends HookConsumerWidget {
   const PostListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeProvider);
     return Expanded(
         child: ListView.builder(
       shrinkWrap: true,
-      itemCount: _homeController.postList.length,
+      itemCount: state.posts.length,
       itemBuilder: (context, index) {
         return Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: customWidth(18)),
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
               child: Row(
                 children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(
-                      _homeController.postList[index].owner.picture,
+                      state.posts[index].owner.picture,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: customWidth(4)),
+                    padding: EdgeInsets.only(left: 4.w),
                     child: Column(
                       children: [
                         Text.rich(
                           TextSpan(
-                            text:
-                                "${_homeController.postList[index].owner.title}. ",
+                            text: "${state.posts[index].owner.title}. ",
                             children: [
                               TextSpan(
                                   text:
-                                      "${_homeController.postList[index].owner.firstName} "),
-                              TextSpan(
-                                  text: _homeController
-                                      .postList[index].owner.lastName)
+                                      "${state.posts[index].owner.firstName} "),
+                              TextSpan(text: state.posts[index].owner.lastName)
                             ],
                           ),
                         ),
-                        Text(DateFormat("MMM d, yy \u00B7 h:mm a").format(
-                            _homeController.postList[index].publishDate))
+                        Text(DateFormat("MMM d, yy \u00B7 h:mm a")
+                            .format(state.posts[index].publishDate))
                       ],
                     ),
                   ),
@@ -59,24 +61,20 @@ class PostListWidget extends HookConsumerWidget {
                         )),
                     child: Icon(
                       Icons.more_horiz_rounded,
-                      color: KColor.secendaryColor.withOpacity(.4),
+                      color: CustomColor.secondary.withOpacity(.4),
                     ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                right: customWidth(18),
-                left: customWidth(18),
-                top: customWidth(5),
-              ),
+              padding: EdgeInsets.only(right: 18.w, left: 18.w, top: 5.h),
               child: Wrap(
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      _homeController.postList[index].text,
+                      state.posts[index].text,
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -85,14 +83,14 @@ class PostListWidget extends HookConsumerWidget {
             ),
             Container(
               margin: EdgeInsets.only(
-                top: customWidth(10),
+                top: 10.w,
               ),
-              height: customWidth(250),
+              height: 250.w,
               decoration: BoxDecoration(
                 // borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage(
-                    _homeController.postList[index].image.toString(),
+                    state.posts[index].image.toString(),
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -102,8 +100,8 @@ class PostListWidget extends HookConsumerWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: customWidth(18),
-                    vertical: customWidth(5),
+                    horizontal: 18.w,
+                    vertical: 5.h,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -111,13 +109,13 @@ class PostListWidget extends HookConsumerWidget {
                     children: [
                       const Icon(
                         Icons.thumb_up_alt_rounded,
-                        color: ColorPalate.primaryColor,
+                        color: CustomColor.primary,
                       ),
                       Text(
-                        _homeController.postList[index].likes.toString(),
-                        style: KTextTheme.nameTextStyle.copyWith(
+                        state.posts[index].likes.toString(),
+                        style: TextStyle(
                           fontWeight: FontWeight.w200,
-                          fontSize: customWidth(12),
+                          fontSize: 12.sp,
                         ),
                       ),
                     ],
@@ -131,22 +129,20 @@ class PostListWidget extends HookConsumerWidget {
                     crossAxisAlignment: WrapCrossAlignment.end,
                     children: [
                       ...List.generate(
-                        _homeController.postList[index].tags.length,
+                        state.posts[index].tags.length,
                         (i) => Container(
-                          margin: EdgeInsets.all(
-                            customWidth(5),
-                          ),
+                          margin: EdgeInsets.all(5.w),
                           padding: EdgeInsets.symmetric(
-                            horizontal: customWidth(5),
+                            horizontal: 5.w,
                           ),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3),
                               border: Border.all(
-                                color: KColor.primaryColor,
+                                color: CustomColor.primary,
                               )),
                           child: Text(
-                            _homeController.postList[index].tags[i],
-                            style: KTextTheme.tagTextStyle,
+                            state.posts[index].tags[i],
+                            style: CustomStyle.tagTextStyle,
                           ),
                         ),
                       ),

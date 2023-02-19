@@ -71,4 +71,17 @@ class CustomStyle {
     fontSize: Dimensions.mediumTextSize,
     color: useContext().color.shadow,
   );
+
+  static TextStyle tagTextStyle = GoogleFonts.oswald(
+    fontWeight: FontWeight.w500,
+    color: useContext().theme.primaryColor,
+  );
+  static TextStyle nameTextStyle = GoogleFonts.roboto(
+    fontWeight: FontWeight.w500,
+    color: useContext().color.shadow,
+  );
+  static TextStyle textTextStyle = GoogleFonts.montserrat(
+    fontWeight: FontWeight.normal,
+    color: useContext().color.shadow,
+  );
 }

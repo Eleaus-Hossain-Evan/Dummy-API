@@ -1,4 +1,4 @@
-import 'package:dummy_api/presentation/styles/colors.dart';
+import 'package:dummy_api/utils/custom_color.dart';
 import 'package:flutter/material.dart';
 
 class KDivider extends StatelessWidget {
@@ -9,7 +9,7 @@ class KDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: KColor.secendaryColor.withOpacity(.4),
+      color: CustomColor.secondary.withOpacity(.4),
       thickness: 1.6,
     );
   }
