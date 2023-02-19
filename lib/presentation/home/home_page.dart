@@ -3,6 +3,7 @@ import 'package:dummy_api/application/home_provider.dart';
 import 'package:dummy_api/presentation/widgets/k_search_textfield.dart';
 import 'package:dummy_api/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,6 +25,11 @@ class HomeScreen extends HookConsumerWidget {
         BotToast.closeAllLoading();
       }
     });
+
+    useEffect(() {
+      Future.microtask(() => ref.read(homeProvider.notifier).getAllPosts());
+      return null;
+    }, const []);
     return Scaffold(
       body: SafeArea(
         child: Column(

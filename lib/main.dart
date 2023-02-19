@@ -39,7 +39,7 @@ Future<void> main() async {
   final box = container.read(hiveProvider);
   await box.init();
 
-  box.put(KStrings.token, '61c74a1797e6fe20b5557de7');
+  box.put(KStrings.token, '63f20e2a42cd204cc9c43971');
 
   final String token = box.get(KStrings.token, defaultValue: '');
 
