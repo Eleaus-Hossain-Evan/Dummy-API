@@ -1,17 +1,15 @@
-import 'package:dummy_api/controllers/home_contoller.dart';
-import 'package:dummy_api/size_config.dart';
-import 'package:dummy_api/presentation/screens/home/widgets/post_list.dart';
 import 'package:dummy_api/presentation/styles/colors.dart';
-import 'package:dummy_api/presentation/styles/styles.dart';
 import 'package:dummy_api/presentation/widgets/k_search_textfield.dart';
+import 'package:dummy_api/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+
+import 'widgets/post_list.dart';
 
 class HomeScreen extends StatelessWidget {
   static String route = 'home';
-  HomeScreen({Key? key}) : super(key: key);
-  final HomeController _homeController = Get.find();
+  const HomeScreen({Key? key}) : super(key: key);
 
   // Future<List<PostList>> _posts = [] as Future<List<PostList>>;
 
@@ -22,29 +20,29 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: customWidth(10),
+              height: 10.h,
             ),
             _dummyText(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: customWidth(18)),
+              padding: EdgeInsets.symmetric(horizontal: 18.h),
               child: Row(
                 children: [
                   SvgPicture.asset(
                     "assets/svg/camera.svg",
-                    height: customWidth(20),
-                    width: customWidth(20),
+                    height: 20.h,
+                    width: 20.h,
                     fit: BoxFit.scaleDown,
                     color: KColor.primaryColor,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: customWidth(5)),
+                    padding: EdgeInsets.symmetric(horizontal: 5.h),
                     width: 200,
                     child: const kSearchTestField(),
                   ),
                 ],
               ),
             ),
-            PostListWidget(),
+            const PostListWidget(),
           ],
         ),
       ),
@@ -53,9 +51,9 @@ class HomeScreen extends StatelessWidget {
 
   Padding _dummyText() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: customWidth(18)),
+      padding: EdgeInsets.symmetric(horizontal: 18.h),
       child: SizedBox(
-        height: customWidth(40),
+        height: 40.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -63,7 +61,7 @@ class HomeScreen extends StatelessWidget {
               child: Center(
                 child: Text(
                   "DUMMY API",
-                  style: KThemeData.headingBoldText,
+                  style: CustomStyle.headingBoldText,
                 ),
               ),
             ),

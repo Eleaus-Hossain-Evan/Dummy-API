@@ -26,17 +26,18 @@ class CleanFailure extends Equatable {
         statusCode: statusCode ?? this.statusCode);
   }
 
-  factory CleanFailure.withData(
-      {required String tag,
-      required String url,
-      required String method,
-      required int statusCode,
-      required Map<String, String> header,
-      required Map<String, dynamic> body,
-      bool enableDialogue = true,
-      required dynamic error}) {
-    final String _tag = tag == 'Type' ? url : tag;
-    final Map<String, dynamic> _errorMap = {
+  factory CleanFailure.withData({
+    required String tag,
+    required String url,
+    required String method,
+    required int statusCode,
+    required Map<String, String> header,
+    required Map<String, dynamic> body,
+    bool enableDialogue = true,
+    required dynamic error,
+  }) {
+    final String tagString = tag == 'Type' ? url : tag;
+    final Map<String, dynamic> errorMap = {
       'url': url,
       'method': method,
       if (header.isNotEmpty) 'header': header,
@@ -45,11 +46,11 @@ class CleanFailure extends Equatable {
       if (statusCode > 0) 'status_code': statusCode
     };
     final encoder = JsonEncoder.withIndent(' ' * 2);
-    // return encoder.convert(toJson());
-    final String _errorStr = encoder.convert(_errorMap);
+
+    final String errorStr = encoder.convert(errorMap);
     return CleanFailure(
-        tag: _tag,
-        error: _errorStr,
+        tag: tagString,
+        error: errorStr,
         enableDialogue: enableDialogue,
         statusCode: statusCode);
   }

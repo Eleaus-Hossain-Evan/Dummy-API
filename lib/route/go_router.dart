@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dummy_api/presentation/home/home_page.dart';
 import 'package:dummy_api/presentation/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easylogger/flutter_logger.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
