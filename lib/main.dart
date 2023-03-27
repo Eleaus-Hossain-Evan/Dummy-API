@@ -1,46 +1,97 @@
-import 'package:clean_api/clean_api.dart';
-import 'package:dummy_api/controllers/home_contoller.dart';
-import 'package:dummy_api/service/network/network_handler.dart';
-import 'package:dummy_api/views/styles/k_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:developer';
 
-import 'constant/strings.dart';
-import 'service/network/api.dart';
-import 'views/screens/home/home_page.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'application/local_storage/storage_handler.dart';
+import 'route/go_router.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easylogger/flutter_logger.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'theme/k_theme.dart';
+import 'utils/utils.dart';
 
 Future<void> main() async {
-  await Hive.initFlutter();
-  final box = await Hive.openBox(KStrings.cacheBox);
+  WidgetsFlutterBinding.ensureInitialized();
+  final container = ProviderContainer(
+    observers: [
+      ProviderLog(),
+    ],
+  );
 
-  // final api = CleanApi.instance;
-  // api.setup(baseUrl: API.baseUrl, showLogs: true);
-  // api.setToken(API.appIdHeaders);
-  // api.enableCache(box);
+  Logger.init(
+    true, // isEnable ，if production ，please false
+    isShowFile: false, // In the IDE, whether the file name is displayed
+    isShowTime: false, // In the IDE, whether the time is displayed
+    levelVerbose: 247,
+    levelDebug: 15,
+    levelInfo: 10,
+    levelWarn: 5,
+    levelError: 9,
+    phoneVerbose: Colors.white,
+    phoneDebug: Colors.lightBlue,
+    phoneInfo: Colors.greenAccent,
+    phoneWarn: Colors.yellow.shade600,
+    phoneError: Colors.redAccent,
+  );
 
-  box.put(KStrings.token, '61c74a1797e6fe20b5557de7');
+  final box = container.read(hiveProvider);
+  await box.init();
 
-  final myApi = NetworkHandler.instance;
-  myApi.setup(
-      baseUrl: API.baseUrl, showLogs: true, customeTokenField: 'app-id');
-  myApi.setToken(box.get(KStrings.token, defaultValue: ''));
-  myApi.enableCache(box);
+  box.put(KStrings.token, '63f20e2a42cd204cc9c43971');
 
-  runApp(const MyApp());
+  final String token = box.get(KStrings.token, defaultValue: '');
+
+  NetworkHandler.instance
+    ..setup(baseUrl: APIRoute.baseURL, showLogs: false)
+    ..setToken(token)
+    ..setAuthKey('app-id');
+
+  Logger.d('token: $token');
+
+  runApp(
+    ProviderScope(
+      parent: container,
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final HomeController _homeController = Get.put(HomeController());
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: KThemeData.mainTheme,
-      home: HomePage(),
+  Widget build(BuildContext context, ref) {
+    final router = ref.watch(routerProvider);
+    return ScreenUtilInit(
+      designSize: const Size(411.4, 843.4),
+      builder: (context, child) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: KThemeData.mainTheme,
+          routerConfig: router,
+          builder: BotToastInit(),
+        );
+      },
     );
+  }
+}
+
+class ProviderLog extends ProviderObserver {
+  @override
+  void didUpdateProvider(
+    ProviderBase provider,
+    Object? previousValue,
+    Object? newValue,
+    ProviderContainer container,
+  ) {
+    Logger.d('''
+{
+  "PROVIDER": "${provider.name}; ${provider.runtimeType.toString()}"
+  
+}''');
+    log("$newValue");
   }
 }

@@ -1,3 +1,6 @@
 {
-  "dart.flutterSdkPath": "C:\\Users\\Evan\\fvm\\versions\\3.3.5"
+  "dart.flutterSdkPath": "C:\\Users\\Evan\\fvm\\versions\\3.3.5",
+  "cSpell.words": [
+    "easylogger"
+  ]
 }
